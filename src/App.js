@@ -11,7 +11,7 @@ function App() {
   const [file,setFile] = useState("FileName")
 
   useEffect(() => {
-    const s = io('http://localhost:5123');
+    const s = io('https://colabcode-backend-23fr.onrender.com');
     setSocket(s);
 
     s.on("connect", () => {
