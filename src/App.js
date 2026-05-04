@@ -8,7 +8,6 @@ function App() {
   const [room, setRoom] = useState("");
   const [code, setCode] = useState("");
   const [users, setUsers] = useState([]);
-  const [file,setFile] = useState("FileName")
 
   useEffect(() => {
     const s = io('https://colabcode-backend-23fr.onrender.com');
@@ -44,34 +43,6 @@ function App() {
     socket.emit("join_room", id);
   };
 
-  // send code changes
-  const handleCodeChange = (e) => {
-    const value = e.target.value;
-    setCode(value);
-
-    socket.emit("send_code", {
-      room,
-      code: value
-    });
-  };
-
-  const changeName = (e) => {
-  const newName = e.target.value;
-
-  const illegalChars = /[<>:"/\\|?*\x00-\x1F]/;
-  const reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
-
-  if (
-    newName.trim() === "" ||
-    illegalChars.test(newName) ||
-    reservedNames.test(newName)
-  ) {
-    console.log("Invalid filename");
-    return;
-  }
-
-  setFile(newName);
-};
   return (
   <div className="h-screen bg-[#1e1e1e] text-gray-200 flex flex-col">
 
