@@ -16,8 +16,8 @@ function App() {
   const roomRef = useRef("");
 
   useEffect(() => {
-    // const s = io('https://colabcode-backend-23fr.onrender.com');
-    const s = io('http://localhost:5123');
+    const s = io('https://colabcode-backend-23fr.onrender.com');
+    // const s = io('http://localhost:5123');
     setSocket(s);
 
     s.on("connect", () => {
