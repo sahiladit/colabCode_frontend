@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import Editor from "@monaco-editor/react";
 import { SignedIn, SignedOut, SignIn } from "@clerk/clerk-react";
 import { useUser } from "@clerk/clerk-react";
+import { UserButton } from "@clerk/clerk-react";
 
 function App() {
 
@@ -15,8 +16,8 @@ function App() {
   const roomRef = useRef("");
 
   useEffect(() => {
-    const s = io('https://colabcode-backend-23fr.onrender.com');
-    // const s = io('http://localhost:5123');
+    // const s = io('https://colabcode-backend-23fr.onrender.com');
+    const s = io('http://localhost:5123');
     setSocket(s);
 
     s.on("connect", () => {
@@ -136,11 +137,7 @@ const createRoom = () => {
         {user.fullName || user.firstName || "User"}
       </span>
 
-      <img
-        src={user.profileImageUrl || user.imageUrl || `https://ui-avatars.com/api/?name=${user.firstName || "U"}`}
-        alt="profile"
-        className="w-8 h-8 rounded-full border border-gray-600 hover:scale-105 transition"
-      />
+      <UserButton afterSignOutUrl="/" />
     </>
   )}
 </div>
