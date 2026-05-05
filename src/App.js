@@ -12,7 +12,6 @@ function App() {
   const [code, setCode] = useState("");
   const [users, setUsers] = useState([]);
   const { user, isLoaded } = useUser();
-  const [userMap, setUserMap] = useState({});
 
   useEffect(() => {
     const s = io('https://colabcode-backend-23fr.onrender.com');
@@ -213,11 +212,12 @@ const createRoom = () => {
           theme="vs-dark"
           value={code}
           onChange={(value) => {
-            if (value === undefined) return;
-
-            setCode(value);
-            socket.emit("send_code", { room, code: value });
-          }}
+  if (value === undefined) return;
+  setCode(value);
+  if (socket) {
+    socket.emit("send_code", { room, code: value });
+  }
+}}
         />
         
       </div>
