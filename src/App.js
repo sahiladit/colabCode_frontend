@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useRef} from 'react';
 import { io } from 'socket.io-client';
 import Editor from "@monaco-editor/react";
 import { SignedIn, SignedOut, SignIn } from "@clerk/clerk-react";
@@ -12,10 +12,11 @@ function App() {
   const [code, setCode] = useState("");
   const [users, setUsers] = useState([]);
   const { user, isLoaded } = useUser();
+  const roomRef = useRef("");
 
   useEffect(() => {
-    const s = io('https://colabcode-backend-23fr.onrender.com');
-    // const s = io('http://localhost:5123');
+    // const s = io('https://colabcode-backend-23fr.onrender.com');
+    const s = io('http://localhost:5123');
     setSocket(s);
 
     s.on("connect", () => {
@@ -59,6 +60,8 @@ const getSafeUser = () => {
 const joinRoom = () => {
   if (!room || !socket || !user || !isLoaded) return;
 
+  roomRef.current = room;
+
   socket.emit("join_room", {
     room,
     user: getSafeUser()
@@ -71,13 +74,13 @@ const createRoom = () => {
 
   const id = Math.random().toString(36).substring(2, 7);
   setRoom(id);
+  roomRef.current = id;
 
   socket.emit("join_room", {
-    room: id, // ✅ FIX
+    room: id,
     user: getSafeUser()
   });
 };
-
   
 
   return (
@@ -215,7 +218,7 @@ const createRoom = () => {
   if (value === undefined) return;
   setCode(value);
   if (socket) {
-    socket.emit("send_code", { room, code: value });
+    socket.emit("send_code", { room: roomRef.current, code: value });
   }
 }}
         />
