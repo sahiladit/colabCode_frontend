@@ -37,13 +37,4 @@ Inspired by:
 - Express.js
 - Socket.IO
 
-## Database
-- MongoDB
-
-## Code Execution
-- Judge0 API
-
-## Collaboration Engine
-- Yjs
-
 ---
